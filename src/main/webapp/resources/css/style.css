@@ -71,13 +71,13 @@ span {
 .form__label{
     display: flex;
     justify-content: center;
-    margin: 15px auto;
+    margin: 20px auto;
     color: #FFCB74;
     font-size: 20px;
     text-shadow:1px 1px 2px  #264242;
 }
 .form__values{
-    margin: 10px auto;
+    margin: 20px auto;
      display: flex;
      justify-content: space-between;
  }
@@ -99,9 +99,11 @@ span {
     border:  2px solid #FFCB74;
 }
 .active{
+    display:block;
     box-shadow: 0 0 5px 3px #FFCB74 ;
     background-color: #ffe5b480;
     border:  2px solid #FFCB74;
+
 }
 .form__inputtext{
     margin: 10px  auto;
@@ -153,20 +155,16 @@ button:hover{
     margin: 10px 0;
 }
 #errors{
-    border:5px solid #d5daee;
 
 }
 #errors p{
     text-align: center;
-    color:red;
+    color:#e38585;
 
 }
-.red {
-    border: 5px solid #e38585;
-    box-shadow: inset 0px 0 5px 3px #e38585 ;
-}
+
 .main__canvas{
-    margin:10px auto;
+    margin: 20px auto;
 }
 canvas {
     z-index: 0;
@@ -220,11 +218,6 @@ div.header{
     align-items: center;
 
 }
-
-
-
-
-
 
 
 
