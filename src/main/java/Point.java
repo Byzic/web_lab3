@@ -26,8 +26,10 @@ public class Point implements Serializable {
     }
 
     public void checkResult() {
+
         result = checkTriangle() || checkRectangle() || checkCircle() ? "Попадание" : "Промах";
-    }
+
+        }
 
     public Double getX() {
         return x;

@@ -59,7 +59,7 @@
                             </div>
                             <h:panelGroup styleClass="form_hidden_x">
                                 <h:inputHidden value="#{pointsBean.point.x}">
-
+                                <f:validateRequired></f:validateRequired>
                                 </h:inputHidden>
                             </h:panelGroup>
                         </div>
@@ -69,12 +69,13 @@
                             </div>
                             <div class="form__inputtext">
                                 <h:inputText styleClass="form_text_y" id="y_text_field">
-<!--                                             value="#{pointsBean.point.yValue}">-->
+
 
                                 </h:inputText>
                             </div>
                             <h:panelGroup styleClass="form_hidden_y">
                             <h:inputHidden value="#{pointsBean.point.y}">
+                                <f:validateRequired></f:validateRequired>
                             </h:inputHidden>
                             </h:panelGroup>
 

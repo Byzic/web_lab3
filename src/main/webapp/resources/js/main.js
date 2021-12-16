@@ -36,6 +36,8 @@ function changeR(link, val) {
 
 
 $(document).ready(function() {
+    $('.form_hidden_x input[type=hidden]').val(null);
+    $('.form_hidden_y input[type=hidden]').val(null);
     $('.form_button_r').on('click', function (event) {
         $('.form_button_r').removeClass("active");
         $(this).addClass('active');
@@ -61,7 +63,7 @@ $(document).ready(function() {
 
 
     canvas.addEventListener("mousedown", function (event) {
-
+        $('.form__button_x').removeClass("active");
         xFromCanvas = (event.offsetX - canvas.width / 2) / EDOTREZOK;
         yFromCanvas = -(event.offsetY - canvas.height / 2) / EDOTREZOK;
         drawPoint(event.offsetX, event.offsetY);
@@ -69,11 +71,12 @@ $(document).ready(function() {
         inputY=yFromCanvas.toFixed(2);
         if (inputX>3 || inputX<-5 || inputY>=3 || inputY<=-5){return }
         $('.form_hidden_x input[type=hidden]').val(inputX);
-        isCanvas=true;
+        //isCanvas=true;
         //$('.form_text_y').val(inputY);
 
         $('.button_submit').click();
-        isCanvas=false;
+
+        //isCanvas=false;
     });
     $('.button_submit').on('click', function(event) {
         $('.form_hidden_y input[type=hidden]').val(inputY);
@@ -84,12 +87,19 @@ $(document).ready(function() {
             $('.form_text_y').val("");
             drawPoint(inputX*EDOTREZOK+canvas.width/2, -inputY*EDOTREZOK+canvas.height/2);
             event.preventDefault();
+            inputX=null;
+            inputY=null;
+
+
         } else {
            // $('.input-form__hidden_r input[type=hidden]').val(rval);
         }
+
     });
 
+    $('.form_text_y').on('input', event => changeY());
 
+    drawPoints();
 });
 
 
@@ -110,6 +120,11 @@ function drawPoints() {
         drawTablePoint(rows[i]["X"]*EDOTREZOK+canvas.width/2, -rows[i]["Y"]*EDOTREZOK+canvas.height/2,rows[i]['Результат'])
     }
 
+}
+function changeY(){
+    let yField = $('.form_text_y');
+    inputY = yField.val().replace(',', '.');
+    $('.form_hidden_y input[type=hidden]').val(inputY);
 }
 function drawTablePoint(x,y,result){
     //console.log("тык: ",x," ",y);
@@ -252,10 +267,10 @@ function validateX() {
 function validateY() {
     const Y_MIN = -5;
     const Y_MAX = 3;
-if (isCanvas==false){
-    let yField = $('.form_text_y');
-    inputY = yField.val().replace(',', '.');
-}
+// if (isCanvas==false){
+//     let yField = $('.form_text_y');
+//     inputY = yField.val().replace(',', '.');
+// }
 
     if(inputY==""){
         errorY1.remove();
