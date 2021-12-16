@@ -58,7 +58,7 @@
                                                  type="button" value="3"/>
                             </div>
                             <h:panelGroup styleClass="form_hidden_x">
-                                <h:inputHidden value="#{pointsBean.point.xValue}">
+                                <h:inputHidden value="#{pointsBean.point.x}">
 
                                 </h:inputHidden>
                             </h:panelGroup>
@@ -68,11 +68,15 @@
                                 <h:outputLabel styleClass="form__label_y" value="значение Y"/>
                             </div>
                             <div class="form__inputtext">
-                                <h:inputText styleClass="form_text_y" id="y_text_field"
-                                             value="#{pointsBean.point.yValue}">
+                                <h:inputText styleClass="form_text_y" id="y_text_field">
+<!--                                             value="#{pointsBean.point.yValue}">-->
 
                                 </h:inputText>
                             </div>
+                            <h:panelGroup styleClass="form_hidden_y">
+                            <h:inputHidden value="#{pointsBean.point.y}">
+                            </h:inputHidden>
+                            </h:panelGroup>
 
                         </div>
                         <div id="main__form__R">
@@ -98,7 +102,7 @@
                             </div>
 
                             <h:panelGroup styleClass="form_hidden_r">
-                            <h:inputHidden value="#{pointsBean.point.rValue}">
+                            <h:inputHidden value="#{pointsBean.point.r}">
 
                             </h:inputHidden>
                         </h:panelGroup>
@@ -106,8 +110,8 @@
 
                         </div>
                         <div class="form__inputtext">
-                            <h:commandButton value="Отправить"
-                                             styleClass="button_submit"  action="#{pointsBean.addPoint()}">
+                            <h:commandButton id="submit" value="Отправить"
+                                             styleClass="button_submit"  action="#{pointsBean.addPoint()}" >
                                 <f:ajax execute="newPointForm" render="pointTable"/>
                             </h:commandButton>
                         </div>
@@ -124,15 +128,15 @@
                         <h:dataTable styleClass="result_table" value="#{pointsBean.listWithPoints}" var="point">
                             <h:column headerClass="variables the_X">
                                 <f:facet name="header">X</f:facet>
-                                <h:outputText value="#{point.xValue}"/>
+                                <h:outputText value="#{point.x}"/>
                             </h:column>
                             <h:column headerClass="variables the_Y">
                                 <f:facet name="header">Y</f:facet>
-                                <h:outputText value="#{point.yValue}"/>
+                                <h:outputText value="#{point.y}"/>
                             </h:column>
                             <h:column headerClass="variables the_R">
                                 <f:facet name="header">R</f:facet>
-                                <h:outputText value="#{point.rValue}"/>
+                                <h:outputText value="#{point.r}"/>
                             </h:column>
                             <h:column headerClass="variables">
                                 <f:facet name="header">Результат</f:facet>

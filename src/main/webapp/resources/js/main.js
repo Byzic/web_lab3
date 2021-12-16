@@ -3,6 +3,7 @@ let ctx = canvas.getContext('2d');
 let inputY;
 let inputX;
 let inputR=3;
+let isCanvas=false;
 $('.form_hidden_r input[type=hidden]').val(inputR);
 let yFromCanvas;
 let xFromCanvas;
@@ -64,17 +65,22 @@ $(document).ready(function() {
         xFromCanvas = (event.offsetX - canvas.width / 2) / EDOTREZOK;
         yFromCanvas = -(event.offsetY - canvas.height / 2) / EDOTREZOK;
         drawPoint(event.offsetX, event.offsetY);
-        inputX = Number(xFromCanvas.toFixed(0));
+        inputX = xFromCanvas.toFixed(2);
         inputY=yFromCanvas.toFixed(2);
+        if (inputX>3 || inputX<-5 || inputY>=3 || inputY<=-5){return }
         $('.form_hidden_x input[type=hidden]').val(inputX);
-        $('.form_text_y').val(inputY);
-        $(".button_submit").click();
+        isCanvas=true;
+        //$('.form_text_y').val(inputY);
+
+        $('.button_submit').click();
+        isCanvas=false;
     });
     $('.button_submit').on('click', function(event) {
+        $('.form_hidden_y input[type=hidden]').val(inputY);
         drawFigures();
         drawPoints();
         if (validateForm()) {
-            console.log($('.form_hidden_x input[type=hidden]').val()+" "+$('.form_text_y').val()+" "+$('.form_hidden_r input[type=hidden]').val());
+            console.log($('.form_hidden_x input[type=hidden]').val()+" "+$('.form_hidden_y input[type=hidden]').val()+" "+$('.form_hidden_r input[type=hidden]').val());
             $('.form_text_y').val("");
             drawPoint(inputX*EDOTREZOK+canvas.width/2, -inputY*EDOTREZOK+canvas.height/2);
             event.preventDefault();
@@ -91,6 +97,7 @@ $(document).ready(function() {
 function drawPoints() {
     let rows = [];
     let headers = $(".result_table th");
+
     $(".result_table tr").each(function (index) {
         let cells = $(this).find("td");
         rows[index] = {};
@@ -100,9 +107,28 @@ function drawPoints() {
     });
     for (let i = 0; i < rows.length; i++) {
 
-        drawPoint(rows[i]["X"]*EDOTREZOK+canvas.width/2, -rows[i]["Y"]*EDOTREZOK+canvas.height/2,)
+        drawTablePoint(rows[i]["X"]*EDOTREZOK+canvas.width/2, -rows[i]["Y"]*EDOTREZOK+canvas.height/2,rows[i]['Результат'])
     }
+
 }
+function drawTablePoint(x,y,result){
+    //console.log("тык: ",x," ",y);
+    //console.log(WIDTH,HEIGHT);
+
+    ctx.fillStyle="#4F8A8B";
+    ctx.setLineDash([2, 2]);
+    ctx.beginPath();
+    ctx.moveTo(x, canvas.height/2);
+    ctx.lineTo(x, y);
+    ctx.moveTo(canvas.width/2, y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.fillStyle = result === 'Промах' ? "#e38585" : "#4F8A8B";
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.setLineDash([]);
+}
+
 
 
 function drawPoint(x,y){
@@ -116,7 +142,7 @@ function drawPoint(x,y){
     ctx.moveTo(canvas.width/2, y);
     ctx.lineTo(x, y);
     ctx.stroke();
-    ctx.fillStyle = "#e38585";
+    ctx.fillStyle = !isInArea() ? "#e38585" : "#4F8A8B";
     ctx.arc(x, y, 4, 0, 2 * Math.PI);
     ctx.fill();
     ctx.setLineDash([]);
@@ -226,9 +252,11 @@ function validateX() {
 function validateY() {
     const Y_MIN = -5;
     const Y_MAX = 3;
-
+if (isCanvas==false){
     let yField = $('.form_text_y');
     inputY = yField.val().replace(',', '.');
+}
+
     if(inputY==""){
         errorY1.remove();
         errorY2.remove();
@@ -275,4 +303,16 @@ function error(elem){
 function removeError(elem){
     elem.css("border","2px solid #729496");
     elem.css("box-shadow", "");
+}
+function isInArea(){
+    return checkTriangle() || checkRectangle() || checkCircle();
+}
+function checkTriangle(){
+    return inputX <= 0 && inputY >= 0 && inputY <= inputX + inputR/2;
+}
+function checkRectangle(){
+    return inputX >= 0 && inputY >= 0 && inputX<=inputR && inputY<=inputR;
+}
+function checkCircle(){
+    return inputX <= 0 && inputY <= 0 && inputY*inputY<=inputR*inputR-inputX*inputX;
 }
