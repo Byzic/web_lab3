@@ -1,29 +1,78 @@
+
+
+
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.persistence.*;
+import javax.transaction.*;
+import javax.transaction.RollbackException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointsBean  implements Serializable {
+
+@Named
+@SessionScoped
+public class PointsBean implements Serializable {
     private Point point;
     private List<Point> listWithPoints;
 
-    public PointsBean(){
-        point=new Point();
-        listWithPoints=new ArrayList<>();
+    @PersistenceContext(unitName = "data")
+    private EntityManager entityManager;
+
+//    private EntityManagerFactory entityManagerFactory;
+//    private EntityManager entityManager;
+//    private EntityTransaction transaction;
+
+    @Resource
+    private UserTransaction userTransaction;
+
+
+    public PointsBean() {
+        point = new Point();
+//        point.setX(0);
+//        point.setY(0.0);
+        //point.setR(3.0);
+        listWithPoints = new ArrayList<>();
+        //connection();
+        loadPoints();
+    }
+
+    @PostConstruct
+    private void loadPoints() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("data");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        listWithPoints = entityManager.createQuery("SELECT e FROM Point e").getResultList();
+
     }
 
     public String addPoint() {
+        try { listWithPoints.add(point);
+            System.out.println("Добавили точку \n \n \n \n \n ");
+            userTransaction.begin();
+            System.out.println(point.getX() );
+            point.checkResult();
 
-        point.checkResult();
-        System.out.println(point);
-        listWithPoints.add(point);
-        int i;
-        for (i=0; i<listWithPoints.size();i++){
-            System.out.println(listWithPoints.get(i).getX()+" "+listWithPoints.get(i).getY()+"/n");
+            System.out.println("Добавили точку");
+
+            for (Point point:listWithPoints) {
+                System.out.println(point);
+            }
+            entityManager.persist(point);
+            point = new Point();
+            userTransaction.commit();
+        } catch (RuntimeException exception) {
+            try {
+                userTransaction.rollback();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            }
+        } catch (SystemException | NotSupportedException | HeuristicRollbackException | HeuristicMixedException | RollbackException e) {
+            e.printStackTrace();
         }
-        point = new Point();
-//        point.setxValue(0.0);
-//        point.setyValue(0.0);
-//        point.setrValue(3.0);
         return "redirect";
     }
 
@@ -44,3 +93,4 @@ public class PointsBean  implements Serializable {
         this.listWithPoints = listWithPoints;
     }
 }
+

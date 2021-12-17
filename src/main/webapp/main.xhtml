@@ -2,131 +2,131 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <ui:composition template="templates/master.xhtml">
-        <ui:define name="head">
-            <!--<h:outputStylesheet library="css" name="main.css"/>-->
-            <title>Лабораторная работа #3 - Основная страница</title>
-        </ui:define>
-        <ui:define name="header">
-            <div class="header _container">
-                <a href="https://github.com/Byzic" class="header__name">
-                    Бызова Валерия
-                </a>
-                <p class="header__text">
-                    Группа P3212
-                </p>
-                <p class="header__text">
-                    Вариант 12035
-                </p>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="templates/master.xhtml">
+    <ui:define name="head">
+        <!--<h:outputStylesheet library="css" name="main.css"/>-->
+        <title>Лабораторная работа #3 - Основная страница</title>
+    </ui:define>
+    <ui:define name="header">
+        <div class="header _container">
+            <a href="https://github.com/Byzic" class="header__name">
+                Бызова Валерия
+            </a>
+            <p class="header__text">
+                Группа P3212
+            </p>
+            <p class="header__text">
+                Вариант 12035
+            </p>
 
-            </div>
-        </ui:define>
+        </div>
+    </ui:define>
 
-        <ui:define name="main">
-            <main class="main-container main _container">
-                <section class="main__canvas">
-                    <ui:include src="templates/canvas.html"/>
-                </section>
-                <section class="main__form">
-                    <h:form id="newPointForm">
-                        <div id="main__form__X">
-                            <div class="form__label">
-                                <h:outputLabel styleClass="form__label_x" value="значение X"/>
-                            </div>
-                            <div class="form__values">
-                                <h:commandButton styleClass="form__button_x button" id="x-button-5"
-                                                 type="button" value="-5"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button-4"
-                                                 type="button" value="-4"/>
-                                <h:commandButton styleClass="form__button_x"
-                                                 id="x-button-3"
-                                                 type="button" value="-3"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button-2"
-                                                 type="button" value="-2"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button-1"
-                                                 type="button" value="-1"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button0"
-                                                 type="button" value="0"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button1"
-                                                 type="button" value="1"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button2"
-                                                 type="button" value="2"/>
-                                <h:commandButton styleClass="form__button_x" id="x-button3"
-                                                 type="button" value="3"/>
-                            </div>
-                            <h:panelGroup styleClass="form_hidden_x">
-                                <h:inputHidden value="#{pointsBean.point.x}">
-                                <f:validateRequired></f:validateRequired>
-                                </h:inputHidden>
-                            </h:panelGroup>
+    <ui:define name="main">
+        <main class="main-container main _container">
+            <section class="main__canvas">
+                <ui:include src="templates/canvas.html"/>
+            </section>
+            <section class="main__form">
+                <h:form id="newPointForm">
+                    <div id="main__form__X">
+                        <div class="form__label">
+                            <h:outputLabel styleClass="form__label_x" value="значение X"/>
                         </div>
-                        <div id="main__form__Y">
-                            <div class="form__label">
-                                <h:outputLabel styleClass="form__label_y" value="значение Y"/>
-                            </div>
-                            <div class="form__inputtext">
-                                <h:inputText styleClass="form_text_y" id="y_text_field">
-
-
-                                </h:inputText>
-                            </div>
-                            <h:panelGroup styleClass="form_hidden_y">
-                            <h:inputHidden value="#{pointsBean.point.y}">
+                        <div class="form__values">
+                            <h:commandButton styleClass="form__button_x button" id="x-button-5"
+                                             type="button" value="-5"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button-4"
+                                             type="button" value="-4"/>
+                            <h:commandButton styleClass="form__button_x"
+                                             id="x-button-3"
+                                             type="button" value="-3"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button-2"
+                                             type="button" value="-2"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button-1"
+                                             type="button" value="-1"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button0"
+                                             type="button" value="0"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button1"
+                                             type="button" value="1"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button2"
+                                             type="button" value="2"/>
+                            <h:commandButton styleClass="form__button_x" id="x-button3"
+                                             type="button" value="3"/>
+                        </div>
+                        <h:panelGroup styleClass="form_hidden_x">
+                            <h:inputHidden value="#{formPageController.x}">
                                 <f:validateRequired></f:validateRequired>
                             </h:inputHidden>
-                            </h:panelGroup>
-
+                        </h:panelGroup>
+                    </div>
+                    <div id="main__form__Y">
+                        <div class="form__label">
+                            <h:outputLabel styleClass="form__label_y" value="значение Y"/>
                         </div>
-                        <div id="main__form__R">
-                            <div class="form__label">
-                                <h:outputLabel styleClass="form__label_r" value="значение R"/>
-                            </div>
-                            <div class="form__values">
-                                <p:commandLink styleClass="form_button_r" id="r-button1"
-                                               onclick="changeR(this,1)"
-                                               type="button" value="1" action="*"/>
-                                <p:commandLink styleClass="form_button_r" id="r-button1_5"
-                                               onclick="changeR(this,1.5)"
-                                               type="button" value="1.5" action="*"/>
-                                <p:commandLink styleClass="form_button_r" id="r-button2"
-                                               onclick="changeR(this,2)"
-                                               type="button" value="2" action="*"/>
-                                <p:commandLink styleClass="form_button_r" id="r-button2_5"
-                                               onclick="changeR(this,2.5)"
-                                               type="button" value="2.5" action="*"/>
-                                <p:commandLink styleClass="form_button_r  active" id="r-button3"
-                                               onclick="changeR(this,3)"
-                                               type="button" value="3" action="*"/>
-                            </div>
+                        <div class="form__inputtext">
+                            <h:inputText styleClass="form_text_y" id="y_text_field">
 
-                            <h:panelGroup styleClass="form_hidden_r">
-                            <h:inputHidden value="#{pointsBean.point.r}">
+
+                            </h:inputText>
+                        </div>
+                        <h:panelGroup styleClass="form_hidden_y">
+                            <h:inputHidden value="#{formPageController.y}">
+                                <f:validateRequired></f:validateRequired>
+                            </h:inputHidden>
+                        </h:panelGroup>
+
+                    </div>
+                    <div id="main__form__R">
+                        <div class="form__label">
+                            <h:outputLabel styleClass="form__label_r" value="значение R"/>
+                        </div>
+                        <div class="form__values">
+                            <p:commandLink styleClass="form_button_r" id="r-button1"
+                                           onclick="changeR(this,1)"
+                                           type="button" value="1" action="*"/>
+                            <p:commandLink styleClass="form_button_r" id="r-button1_5"
+                                           onclick="changeR(this,1.5)"
+                                           type="button" value="1.5" action="*"/>
+                            <p:commandLink styleClass="form_button_r" id="r-button2"
+                                           onclick="changeR(this,2)"
+                                           type="button" value="2" action="*"/>
+                            <p:commandLink styleClass="form_button_r" id="r-button2_5"
+                                           onclick="changeR(this,2.5)"
+                                           type="button" value="2.5" action="*"/>
+                            <p:commandLink styleClass="form_button_r  active" id="r-button3"
+                                           onclick="changeR(this,3)"
+                                           type="button" value="3" action="*"/>
+                        </div>
+
+                        <h:panelGroup styleClass="form_hidden_r">
+                            <h:inputHidden value="#{formPageController.r}">
 
                             </h:inputHidden>
                         </h:panelGroup>
 
 
-                        </div>
-                        <div class="form__inputtext">
-                            <h:commandButton id="submit" value="Отправить"
-                                             styleClass="button_submit"  action="#{pointsBean.addPoint()}" >
-                                <f:ajax execute="newPointForm" render="pointTable"/>
-                            </h:commandButton>
-                        </div>
+                    </div>
+                    <div class="form__inputtext">
+                        <h:commandButton id="submit" value="Отправить"
+                                         styleClass="button_submit"  action="#{formPageController.shotSubmitted}" >
+                            <f:ajax execute="newPointForm" render="pointTable"/>
+                        </h:commandButton>
+                    </div>
 
-                        <div id="errors">
-                        </div>
+                    <div id="errors">
+                    </div>
 
-                    </h:form>
+                </h:form>
 
-                </section>
-                <section class="main__table">
-                    <div class="result-table_container">
-                        <h:panelGroup id="pointTable">
-                        <h:dataTable styleClass="result_table" value="#{pointsBean.listWithPoints}" var="point">
+            </section>
+            <section class="main__table">
+                <div class="result-table_container">
+                    <h:panelGroup id="pointTable">
+                        <h:dataTable styleClass="result_table" value="#{formPageController.history}" var="point">
                             <h:column headerClass="variables the_X">
                                 <f:facet name="header">X</f:facet>
                                 <h:outputText value="#{point.x}"/>
@@ -141,29 +141,29 @@
                             </h:column>
                             <h:column headerClass="variables">
                                 <f:facet name="header">Результат</f:facet>
-                                <h:outputText value="#{point.result}"/>
+                                <h:outputText value="#{point.hit}"/>
                             </h:column>
                         </h:dataTable>
-                        </h:panelGroup>
-                    </div>
-
-
-
-                </section>
-                <div class="main__link">
-                    <h:link styleClass="link" outcome="goToFirst">
-                        На стартовую страницу
-                    </h:link>
+                    </h:panelGroup>
                 </div>
 
-            </main>
 
 
-            <h:outputScript library="js" name="main.js"/>
-        </ui:define>
+            </section>
+            <div class="main__link">
+                <h:link styleClass="link" outcome="goToFirst">
+                    На стартовую страницу
+                </h:link>
+            </div>
+
+        </main>
 
 
-    </ui:composition>
+        <h:outputScript library="js" name="main.js"/>
+    </ui:define>
+
+
+</ui:composition>
 
 
 

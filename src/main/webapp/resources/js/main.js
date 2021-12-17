@@ -69,12 +69,13 @@ $(document).ready(function() {
         drawPoint(event.offsetX, event.offsetY);
         inputX = xFromCanvas.toFixed(2);
         inputY=yFromCanvas.toFixed(2);
-        if (inputX>3 || inputX<-5 || inputY>=3 || inputY<=-5){return }
+
         $('.form_hidden_x input[type=hidden]').val(inputX);
         //isCanvas=true;
         //$('.form_text_y').val(inputY);
 
         $('.button_submit').click();
+        setTimeout(() => {drawPoints(); }, 1100);
 
         //isCanvas=false;
     });
@@ -89,6 +90,7 @@ $(document).ready(function() {
             event.preventDefault();
             inputX=null;
             inputY=null;
+
 
 
         } else {
@@ -138,7 +140,7 @@ function drawTablePoint(x,y,result){
     ctx.moveTo(canvas.width/2, y);
     ctx.lineTo(x, y);
     ctx.stroke();
-    ctx.fillStyle = result === 'Промах' ? "#e38585" : "#4F8A8B";
+    ctx.fillStyle = result === 'false' ? "#e38585" : "#4F8A8B";
     ctx.arc(x, y, 4, 0, 2 * Math.PI);
     ctx.fill();
     ctx.setLineDash([]);
@@ -320,10 +322,12 @@ function removeError(elem){
     elem.css("box-shadow", "");
 }
 function isInArea(){
+
     return checkTriangle() || checkRectangle() || checkCircle();
 }
 function checkTriangle(){
-    return inputX <= 0 && inputY >= 0 && inputY <= inputX + inputR/2;
+    console.log(inputX <= 0 && inputY >= 0 && inputY <= (inputX + inputR/2));
+    return inputX <= 0 && inputY >= 0 && inputY <= (inputX + inputR/2);
 }
 function checkRectangle(){
     return inputX >= 0 && inputY >= 0 && inputX<=inputR && inputY<=inputR;
