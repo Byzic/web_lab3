@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
-    <persistence-unit name="data" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="data" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>org.lera.lab3.model.Point</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
