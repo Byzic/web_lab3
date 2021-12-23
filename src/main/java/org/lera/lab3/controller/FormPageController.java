@@ -9,21 +9,22 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Named
 @SessionScoped
 public class FormPageController implements Serializable {
-    private Double MIN_X=-5.0;
-    private Double MAX_X=3.0;
-    private Double MIN_Y=-5.0;
-    private Double MAX_Y=3.0;
 
     @Inject
     private PointRepository pointRepository;
+    private List<Point> listWithPoints=new ArrayList();
 
     private String userId;
+
 
     private Double x = 0.0;
     private Double y = 0.0;
@@ -32,25 +33,22 @@ public class FormPageController implements Serializable {
     @PostConstruct
     public void init() {
         FacesContext fCtx = FacesContext.getCurrentInstance();
+        listWithPoints=getHistory();
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         userId = session.getId();
     }
 
     public void shotSubmitted() {
 
-        if (x<MIN_X || x>MAX_X || y<=MIN_Y || y>=MAX_Y){
-            return;
-        }
         Point point = getResultEntry(x, y, r);
+        listWithPoints.add(point);
+
         pointRepository.addPoint(point);
     }
 
     private Point getResultEntry(double x, double y, double r) {
         boolean hit;
-
-
-        hit = checkTriangle() || checkRectangle() || checkCircle() ? true : false;
-
+        hit = checkTriangle() || checkRectangle() || checkCircle() ;
         Point point = new Point();
         point.setUserId(userId);
         point.setX(x);
@@ -93,6 +91,13 @@ public class FormPageController implements Serializable {
 
     public Double getR() {
         return r;
+    }
+
+    public void setListWithPoints(List<Point> listWithPoints){
+        this.listWithPoints=listWithPoints;
+    }
+    public List<Point> getListWithPoints(){
+        return listWithPoints;
     }
 
     public List<Point> getHistory() {

@@ -59,24 +59,26 @@
                         </div>
                         <h:panelGroup styleClass="form_hidden_x">
                             <h:inputHidden value="#{formPageController.x}">
-                                <f:validateRequired></f:validateRequired>
+                                <!--                                    <f:validateRequired></f:validateRequired>-->
+                                <f:validator validatorId="pointXValidator" />
                             </h:inputHidden>
                         </h:panelGroup>
                     </div>
                     <div id="main__form__Y">
                         <div class="form__label">
-                            <h:outputLabel styleClass="form__label_y" value="значение Y"/>
+                            <h:outputLabel styleClass="form__label_y"  value="значение Y"/>
                         </div>
                         <div class="form__inputtext">
                             <h:inputText styleClass="form_text_y" id="y_text_field">
 
-
                             </h:inputText>
                         </div>
                         <h:panelGroup styleClass="form_hidden_y">
-                            <h:inputHidden value="#{formPageController.y}">
-                                <f:validateRequired></f:validateRequired>
+                            <h:inputHidden  value="#{formPageController.y}">
+
+                                <f:validator validatorId="pointYValidator" />
                             </h:inputHidden>
+
                         </h:panelGroup>
 
                     </div>
@@ -124,9 +126,9 @@
 
             </section>
             <section class="main__table">
-                <div class="result-table_container">
+                <div class="scroll-container">
                     <h:panelGroup id="pointTable">
-                        <h:dataTable styleClass="result_table" value="#{formPageController.history}" var="point">
+                        <h:dataTable styleClass="result_table" value="#{formPageController.listWithPoints}" var="point">
                             <h:column headerClass="variables the_X">
                                 <f:facet name="header">X</f:facet>
                                 <h:outputText value="#{point.x}"/>
@@ -157,14 +159,7 @@
             </div>
 
         </main>
-
-
         <h:outputScript library="js" name="main.js"/>
     </ui:define>
-
-
 </ui:composition>
-
-
-
 </html>

@@ -35,7 +35,7 @@ function changeR(link, val) {
 
 
 
-$(document).ready(function() {
+$(document).ready(function() {drawPoints();
     $('.form_hidden_x input[type=hidden]').val(null);
     $('.form_hidden_y input[type=hidden]').val(null);
     $('.form_button_r').on('click', function (event) {
@@ -66,45 +66,83 @@ $(document).ready(function() {
         $('.form__button_x').removeClass("active");
         xFromCanvas = (event.offsetX - canvas.width / 2) / EDOTREZOK;
         yFromCanvas = -(event.offsetY - canvas.height / 2) / EDOTREZOK;
-        drawPoint(event.offsetX, event.offsetY);
         inputX = xFromCanvas.toFixed(2);
         inputY=yFromCanvas.toFixed(2);
-
+        //if (inputX>3 || inputX<-5 || inputY>=3 || inputY<=-5){return }
+        //drawPoint(event.offsetX, event.offsetY);
         $('.form_hidden_x input[type=hidden]').val(inputX);
         //isCanvas=true;
         //$('.form_text_y').val(inputY);
 
         $('.button_submit').click();
-        setTimeout(() => {drawPoints(); }, 1100);
+        //drawPoints();
+
+
 
         //isCanvas=false;
     });
     $('.button_submit').on('click', function(event) {
         $('.form_hidden_y input[type=hidden]').val(inputY);
-        drawFigures();
-        drawPoints();
+        //drawFigures();
+        drawLastPoints();//Points();
         if (validateForm()) {
             console.log($('.form_hidden_x input[type=hidden]').val()+" "+$('.form_hidden_y input[type=hidden]').val()+" "+$('.form_hidden_r input[type=hidden]').val());
             $('.form_text_y').val("");
-            drawPoint(inputX*EDOTREZOK+canvas.width/2, -inputY*EDOTREZOK+canvas.height/2);
+            //drawPoint(inputX*EDOTREZOK+canvas.width/2, -inputY*EDOTREZOK+canvas.height/2);
             event.preventDefault();
             inputX=null;
             inputY=null;
+            //drawPoints();
+            //setTimeout(() => {drawLastPoints(); }, 500);
+            setTimeout(() => {drawLastPoints(); }, 2000);
+            //setTimeout(() => {drawLastPoints(); }, 4000);
+            //setTimeout(() => {drawPoints(); }, 4000);
+
+
+
+
+            setTimeout(() => {
+                $('.form_hidden_x input[type=hidden]').val(null);
+                $('.form_hidden_y input[type=hidden]').val(null); }, 1100);
+
 
 
 
         } else {
-           // $('.input-form__hidden_r input[type=hidden]').val(rval);
+            // $('.input-form__hidden_r input[type=hidden]').val(rval);
         }
 
     });
 
     $('.form_text_y').on('input', event => changeY());
 
-    drawPoints();
+
 });
 
+function drawLastPoints() {
+    let rows = [];
+    let headers = $(".result_table th");
 
+    $(".result_table tr").each(function (index) {
+        let cells = $(this).find("td");
+        rows[index] = {};
+        cells.each(function (cellIndex) {
+            rows[index][$(headers[cellIndex]).html()] = $(this).html().replace(/\s/g, "");
+        });
+    });
+    if (8>rows.length){
+        for (let i = 0; i < rows.length; i++) {
+
+            drawTablePoint(rows[i]["X"]*EDOTREZOK+canvas.width/2, -rows[i]["Y"]*EDOTREZOK+canvas.height/2,rows[i]['Результат'])
+        }
+    }else{
+        for (let i = rows.length-8; i < rows.length; i++) {
+
+            drawTablePoint(rows[i]["X"]*EDOTREZOK+canvas.width/2, -rows[i]["Y"]*EDOTREZOK+canvas.height/2,rows[i]['Результат'])
+        }
+    }
+
+}
 
 function drawPoints() {
     let rows = [];
@@ -147,23 +185,6 @@ function drawTablePoint(x,y,result){
 }
 
 
-
-function drawPoint(x,y){
-    //console.log("тык: ",x," ",y);
-    //console.log(WIDTH,HEIGHT);
-    ctx.fillStyle="#4F8A8B";
-    ctx.setLineDash([2, 2]);
-    ctx.beginPath();
-    ctx.moveTo(x, canvas.height/2);
-    ctx.lineTo(x, y);
-    ctx.moveTo(canvas.width/2, y);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    ctx.fillStyle = !isInArea() ? "#e38585" : "#4F8A8B";
-    ctx.arc(x, y, 4, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.setLineDash([]);
-}
 function clearCanvas(){
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -239,6 +260,8 @@ function drawFigures(){
     ctx.lineTo(8*WIDTH/10-15,HEIGHT/2+10);
     ctx.stroke();
 
+
+
     //10 палочек на оси
     for (let i=-5;i<=5;i++ ){
         ctx.beginPath();
@@ -247,7 +270,11 @@ function drawFigures(){
         ctx.stroke();
         ctx.strokeText(String(-i),WIDTH/2-i*EDOTREZOK,HEIGHT/2-5);
 
+
+
     }
+    ctx.fillStyle="#262424";
+    ctx.arc(400, 200, 4, 0, 2 * Math.PI);
 }
 
 function validateForm() {
@@ -320,18 +347,4 @@ function error(elem){
 function removeError(elem){
     elem.css("border","2px solid #729496");
     elem.css("box-shadow", "");
-}
-function isInArea(){
-
-    return checkTriangle() || checkRectangle() || checkCircle();
-}
-function checkTriangle(){
-    console.log(inputX <= 0 && inputY >= 0 && inputY <= (inputX + inputR/2));
-    return inputX <= 0 && inputY >= 0 && inputY <= (inputX + inputR/2);
-}
-function checkRectangle(){
-    return inputX >= 0 && inputY >= 0 && inputX<=inputR && inputY<=inputR;
-}
-function checkCircle(){
-    return inputX <= 0 && inputY <= 0 && inputY*inputY<=inputR*inputR-inputX*inputX;
 }
