@@ -3,7 +3,6 @@ let ctx = canvas.getContext('2d');
 let inputY;
 let inputX;
 let inputR=3;
-let isCanvas=false;
 $('.form_hidden_r input[type=hidden]').val(inputR);
 let yFromCanvas;
 let xFromCanvas;
@@ -17,6 +16,8 @@ let errorY3= document.createElement("p");
 errorY3.textContent = "Введите значение Y";
 let errorX=document.createElement("p");
 errorX.textContent = "Значение X не выбрано";
+let errorX1=document.createElement("p");
+errorX1.textContent = "Значение X не входит в интервал [-5,3]";
 
 const HEIGHT=400;
 const WIDTH=800;
@@ -68,8 +69,7 @@ $(document).ready(function() {drawPoints();
         yFromCanvas = -(event.offsetY - canvas.height / 2) / EDOTREZOK;
         inputX = xFromCanvas.toFixed(2);
         inputY=yFromCanvas.toFixed(2);
-        //if (inputX>3 || inputX<-5 || inputY>=3 || inputY<=-5){return }
-        //drawPoint(event.offsetX, event.offsetY);
+
         $('.form_hidden_x input[type=hidden]').val(inputX);
         //isCanvas=true;
         //$('.form_text_y').val(inputY);
@@ -84,7 +84,7 @@ $(document).ready(function() {drawPoints();
     $('.button_submit').on('click', function(event) {
         $('.form_hidden_y input[type=hidden]').val(inputY);
         //drawFigures();
-        drawLastPoints();//Points();
+        drawLastPoints();
         if (validateForm()) {
             console.log($('.form_hidden_x input[type=hidden]').val()+" "+$('.form_hidden_y input[type=hidden]').val()+" "+$('.form_hidden_r input[type=hidden]').val());
             $('.form_text_y').val("");
@@ -92,11 +92,9 @@ $(document).ready(function() {drawPoints();
             event.preventDefault();
             inputX=null;
             inputY=null;
-            //drawPoints();
-            //setTimeout(() => {drawLastPoints(); }, 500);
+
             setTimeout(() => {drawLastPoints(); }, 2000);
-            //setTimeout(() => {drawLastPoints(); }, 4000);
-            //setTimeout(() => {drawPoints(); }, 4000);
+
 
 
 
@@ -109,7 +107,7 @@ $(document).ready(function() {drawPoints();
 
 
         } else {
-            // $('.input-form__hidden_r input[type=hidden]').val(rval);
+
         }
 
     });
@@ -281,11 +279,21 @@ function validateForm() {
     return validateX() & validateY() ;
 }
 function validateX() {
+    const X_MIN = -5;
+    const X_MAX = 3;
 
     if (inputX) {
         errorX.remove();
-        removeError($(".form__button_x"));
-        return true;
+
+        if (inputX<X_MIN || inputX>X_MAX){
+            $('#errors').append(errorX1);
+            return false;
+        }else{
+            errorX1.remove();
+            removeError($(".form__button_x"));
+            return true;
+        }
+
     } else {
         $('#errors').append(errorX);
         error($(".form__button_x"));
